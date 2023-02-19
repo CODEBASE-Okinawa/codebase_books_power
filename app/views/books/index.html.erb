@@ -1,6 +1,6 @@
 <% if current_user %> 
-  <h1> <%= current_user.name %>さん</h1>
-  <%= link_to "サインアウト", "#" %>
+  <h1> <%= current_user.name %> さん</h1>
+  <%= link_to "サインアウト", "#"%>
 <% else %>
   <h1> 名無しさん</h1>
   <%= link_to "サインイン", new_user_session_path %>

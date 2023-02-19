@@ -1,11 +1,7 @@
 <h1>Reservations#index</h1>
 
-<% flash.each do |message_type, message| %>
-  <div class="alert alert-<%= message_type %>"><%= message %></div>
-<% end %>
-
 <% if current_user %>
-  <h1><%= current_user.name %>さん</h1>
+  <h1> <%= current_user.name %> さん</h1>
   <%= link_to "サインアウト", "#"%>
 <% else %>
   <h1> 名無しさん</h1>

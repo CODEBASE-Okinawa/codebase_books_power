@@ -1,21 +1,20 @@
 <p><%= link_to "本一覧", books_path %> >  <%= @book.title %> </p>
 
   <%= image_tag 'sample.jpeg', size: 200  %>
-  <h2><%= @book.title %></h2>
+  <h2> <%= @book.title %> </h2>
   <p>ステータスが表示されます</p>
 
-<%= form_with(url: reservations_path) do |f| %>
-  <%= f.hidden_field :book_id, :value => @book.id %>
-  <%= f.hidden_field :user_id, :value => current_user.id %>
+<%= form_with(url: "#") do |f| %>
+  
   <%= f.date_field :start_at, value: Date.today, min: Date.today, class: 'form-control' %>
   <%= f.label :start_at, 'から' %>
-  <%= f.date_field :return_at, value: Date.today+7, min: Date.today, class: 'form-control' %>
-  <%= f.label :return_at, 'まで' %>
-  <button type="submit" formaction = "/lendings" method="post">借りる</button>
-  <button type="submit">予約する</button>
+  <%= f.date_field :end_at, value: Date.today+7, min: Date.today, class: 'form-control' %>
+  <%= f.label :end_at, 'まで' %>
+  <%= f.submit '借りる', class: 'btn btn-primary' %>
+  <%= f.submit '予約する', class: 'btn btn-primary' %>
 <% end %>
 
-<% if @reservations.exists?%>
+<% if @reservations%>
   <div class="resevation_list">
     <p>以下の日程で予約が入っています。</p>
     <p>日程が被らないように貸出・予約しましょう</p>
@@ -23,6 +22,5 @@
       <%= render @reservations %>
     </ul>
   </div>
-<% else %>
-  <p>現在予約は入っていません。</p>
 <% end %>
+
