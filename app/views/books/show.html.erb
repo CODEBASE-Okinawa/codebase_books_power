@@ -1,3 +1,28 @@
+<script>
+    document.addEventListener("turbo:load", function() {
+        const reservationSubmit = document.querySelector("input[type=submit][id=submit_reservation]");
+        const lendingSubmit = document.querySelector("input[type=submit][id=submit_lending]");
+
+        const startAtInput = document.querySelector("input[name='start_at1']");
+        const endAtInput = document.querySelector("input[name='end_at1']");
+
+        reservationSubmit.addEventListener("click", function(){
+            const startAtHiddenInput = document.querySelector("input[name='reservation[reservation_at]']");
+            const endAtHiddenInput = document.querySelector("input[name='reservation[return_at]']");
+
+            startAtHiddenInput.value = startAtInput.value;
+            endAtHiddenInput.value =  endAtInput.value;
+        });
+        lendingSubmit.addEventListener("click", function(){
+            const startAtHiddenInput = document.querySelector("input[name='lending[lending_at]']");
+            const endAtHiddenInput = document.querySelector("input[name='lending[return_at]']");
+
+            startAtHiddenInput.value = startAtInput.value;
+            endAtHiddenInput.value = endAtInput.value;
+        });
+    }, false);
+</script>
+
 <p><%= link_to "本一覧", books_path %> >  <%= @book.title %></p>
 
 <div class="flex">
@@ -10,36 +35,39 @@
   </div>
   <div>
     <h2 class="text-5xl font-bold"><%= @book.title %></h2>
-    <% if @book.lendings.exists?(return_status: false) %>
+    <% if @book.lend_active.present?%>
       <span class="text-sm text-black" style="background:#FF2c2c;">貸出中です</span>
     <% else %>
       <span class="text-sm text-black" style="background:#98FF98;font-weight: bold;">貸出可能</span>
     <% end %>
 
-    <%= form_with(url: reservations_path) do |f| %>
+    <input type="date" value=<%= Date.today %> min= <%= Date.today %> id="start_at1" name="start_at1" >
+    <span>から</span>
+    <input type="date" value=<%= Date.today + 7 %> min= <%= Date.today %>  id="end_at1" name="end_at1" >
+    <span>まで</span>
+    <%= form_with model: @lending do |f| %>
       <%= f.hidden_field :book_id, :value => @book.id %>
-      <%= f.hidden_field :user_id, :value => current_user&.id %>
-      <div class="flex flex-col">
-        <div>
-          <%= f.date_field :start_at, value: Date.today, min: Date.today %>
-          <%= f.label :start_at, 'から' %>
-        </div>
-        <div>
-          <%= f.date_field :return_at, value: Date.today + 7, min: Date.today %>
-          <%= f.label :return_at, 'まで' %>
-        </div>
-      </div>
-
-      <button type="submit" formaction="/lendings" method="post" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg"    <%= "disabled style = background:#9ca3af;color:#ffffff;" if @book.lendings.exists?(return_status: false) %>>借りる</button>
-      <button type="submit" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-yellow-500 border border-gray-300 rounded-lg">予約する</button>
+      <%= f.hidden_field :lending_at, :value => Date.today %>
+      <%= f.hidden_field :return_at, :value => Date.today + 7 %>
+      <%= f.submit "借りる" , id: "submit_lending",
+                   class: "inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg",
+                   style: ("background:#9ca3af;color:#ffffff" if @book.lend_active.present?),
+                   disabled: @book.lend_active.present? %>
+    <% end %>
+    <%= form_with model: @reservation do |f| %>
+      <%= f.hidden_field :book_id, :value => @book.id %>
+      <%= f.hidden_field :reservation_at, :value => Date.today %>
+      <%= f.hidden_field :return_at, :value => Date.today + 7 %>
+      <%= f.submit "予約する" , id: "submit_reservation", class: "inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-yellow-500 border border-gray-300 rounded-lg cursor-pointer" %>
     <% end %>
 
-    <% if @reservations.exists? %>
+
+    <% if @book.reservation_active.any? %>
       <div>
         <p>以下の日程で予約が入っています。</p>
         <p>日程が被らないように貸出・予約しましょう</p>
         <ul>
-          <%= render @reservations %>
+          <%= render @book.reservation_active %>
         </ul>
       </div>
     <% else %>

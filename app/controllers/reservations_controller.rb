@@ -13,7 +13,8 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Book.find(params[:book_id]).reservations.build(reservation_param(params))
+    @user = User.find(current_user.id)
+    @reservation = @user.reservations.build(reservation_param)
     return unless @reservation.save
 
     flash[:success] = "予約が完了しました"
@@ -30,11 +31,10 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def reservation_param(data)
-    @reservation_info = { book_id: data[:book_id],
-                          user_id: current_user&.id,
-                          reservation_at: data[:start_at],
-                          return_at: data[:return_at] }
+  def reservation_param
+    params.require(:reservation).permit(:book_id,
+                                          :reservation_at,
+                                          :return_at)
   end
 
   def delete_old_reservations
