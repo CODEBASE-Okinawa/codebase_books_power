@@ -7,12 +7,15 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book = Book.find(params[:id])
-    lending = @book.lendings.where(return_status: false, user_id: current_user.id).first
-    redirect_to lending if lending
-    reservation = @book.reservations.where("reservation_at >= ?", Time.now).where(user_id: current_user.id).first
+    @book = Book.eager_load(:reservation_active, :lend_active).where(id: params[:id]).with_attached_image.order("reservations.reservation_at asc").first
+
+    lending = @book.lend_active.first
+    redirect_to lending if lending&.user_id == current_user.id && lending.present?
+    reservation = @book.reservation_active.find{|reservation| reservation.user_id == current_user.id}
     redirect_to reservation_path(reservation) if reservation
-    @reservations = @book.reservations.where("reservation_at >= ?", Time.now).order(reservation_at: :asc)
+
+    @reservation = Reservation.new
+    @lending = Lending.new
   end
 
   private

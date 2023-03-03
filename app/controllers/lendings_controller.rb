@@ -23,7 +23,9 @@ class LendingsController < ApplicationController
   end
 
   def create
-    @lending = Book.find(params[:book_id]).lendings.build(lending_params(params))
+    @user = User.find(current_user.id)
+    @lending = @user.lendings.build(lending_params)
+
     return unless @lending.save
 
     flash[:success] = "貸出が完了しました"
@@ -32,10 +34,9 @@ class LendingsController < ApplicationController
 
   private
 
-  def lending_params(data)
-    @lending_params = { book_id: data[:book_id],
-                        user_id: current_user&.id,
-                        return_at: data[:return_at] }
+  def lending_params
+    params.require(:lending).permit(:book_id,
+                                    :return_at)
   end
 
   # サインインしているユーザーが借りていない本だったら、貸出一覧ページへリダイレクト
