@@ -15,6 +15,7 @@ module Workspace
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     config.active_job.queue_adapter = :delayed_job
+    config.autoload_paths << "#{Rails.root}/lib"
 
     # Configuration for the application, engines, and railties goes here.
     #

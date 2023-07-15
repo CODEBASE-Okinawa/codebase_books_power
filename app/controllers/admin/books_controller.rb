@@ -20,6 +20,17 @@ class Admin::BooksController < ApplicationController
     end
   end
 
+  def search
+    @result = GoogleBooksApi.search_by_isbn(params[:isbn])
+    if @result["totalItems"] == 0
+      flash[:danger] = "本が見つかりませんでした"
+      redirect_to new_admin_book_path
+    else
+      @result
+      render 'new'
+    end
+  end
+
   private
 
   def book_params

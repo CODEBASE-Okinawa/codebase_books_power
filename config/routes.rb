@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   }
   root "top#index"
   namespace :admin do
-    resources :books, only: [:index, :new, :create]
+    resources :books, only: [:index, :new, :create] do
+      collection { get "search"}
+    end
     resources :users, only: [:index]
   end
 
