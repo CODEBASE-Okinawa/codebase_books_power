@@ -1,0 +1,16 @@
+<h3 class="text-xl">検索結果</h3>
+<%= form_with(model: @book, url: admin_books_path) do |f| %>
+  <div class="flex">
+    <div>
+      <div>
+        <p>
+          <%= f.label :タイトル %>
+        </p>
+        <p>
+          <%= f.text_field :title, class: "border" %>
+        </p>
+      </div>
+      <%= f.submit "本を登録する", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+    </div>
+  </div>
+<% end %>
