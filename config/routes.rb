@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :books, only: [:index, :new, :create]
     resources :users, only: [:index]
+    resources :requests, only: [:index]
   end
+
 
   resources :books
   resources :reservations, only: [:index, :show, :create, :destroy]
