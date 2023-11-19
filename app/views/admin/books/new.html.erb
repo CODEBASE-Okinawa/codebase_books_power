@@ -1,20 +1,13 @@
 <h1 class="text-3xl">本管理 > 本登録</h1>
 <%# APIのcontroller作成時にURL修正する %>
-<%= form_with(url: admin_books_path) do |f| %>
+<%= form_tag({:action=>"search", :controller=>"admin/books"},{ method: :post }) do %>
   <div class="flex">
     <div>
       <div>
-        <p>
-          <%= f.label :ISBN, 'ISBN-10' %>
-        </p>
-        <p>
-          <%= f.text_field :ISBN10, class: "border" %>
-        </p>
+        <label for="isbn">ISBN-10</label>
+        <input type="text" name="isbn" id="isbn"/>
       </div>
-      <%= f.submit "検索", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <input type="submit" value="検索" class="w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" />
     </div>
   </div>
 <% end %>
-
-<%# controller追加時に検索結果の変数が入っているかによって検索結果パネルを表示する条件分岐を入れる %>
-<%= render partial: 'search_result', locals: { result_book: @result_book } %>
