@@ -20,9 +20,23 @@ class Admin::BooksController < ApplicationController
     end
   end
 
+  def search
+    require 'net/http'
+    require 'uri'
+
+    isbn10 = params[:isbn]
+    uri = URI.parse('https://www.googleapis.com/books/v1/volumes')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    response = http.get("#{uri}?q=isbn:#{isbn10}")
+    hash = JSON.parse(response.body)
+    @result_book = hash["items"][0]["volumeInfo"]
+    redirect_to '/admin/books/new'
+  end
+
   private
 
   def book_params
-    params.require(:book).permit(:title, :image)
+    params.require(:book).permit(:title, :image, :ISBN)
   end
 end
