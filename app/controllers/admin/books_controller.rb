@@ -7,6 +7,7 @@ class Admin::BooksController < ApplicationController
 
   def new
     @book = Book.new
+    @result_book = params[:result_book]
   end
 
   def create
@@ -31,12 +32,12 @@ class Admin::BooksController < ApplicationController
     response = http.get("#{uri}?q=isbn:#{isbn10}")
     hash = JSON.parse(response.body)
     @result_book = hash["items"][0]["volumeInfo"]
-    redirect_to '/admin/books/new'
+    redirect_to action: 'new', result_book: @result_book
   end
 
   private
 
   def book_params
-    params.require(:book).permit(:title, :image, :ISBN)
+    params.require(:book).permit(:title, :image, :isbn)
   end
 end
