@@ -6,8 +6,15 @@ Rails.application.routes.draw do
   root "top#index"
   namespace :admin do
     resources :books, only: [:index, :new, :create]
+    resources :books do
+      collection do
+        post 'search'
+      end
+    end
     resources :users, only: [:index]
+    resources :requests, only: [:index]
   end
+
 
   resources :books
   resources :reservations, only: [:index, :show, :create, :destroy]
