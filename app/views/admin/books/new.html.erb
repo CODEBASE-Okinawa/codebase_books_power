@@ -11,3 +11,7 @@
     </div>
   </div>
 <% end %>
+
+<% if @result_book %>
+  <%= render partial: 'search_result', locals: { result_book: @result_book } %>
+<% end %>
