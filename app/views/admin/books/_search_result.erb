@@ -1,4 +1,4 @@
-<h3 class="text-xl">検索結果</h3>
+<h3 class="text-xl py-10">検索結果</h3>
 <%= form_with(model: @book, url: admin_books_path) do |f| %>
   <div class="flex">
     <div>
@@ -7,9 +7,11 @@
           <%= f.label :タイトル %>
         </p>
         <p>
-          <%= f.text_field :title, value: @result_book["title"], readonly: true, class: "border" %>
-          <%= f.hidden_field :isbn, value: @result_book["industryIdentifiers"][0]["identifier"], class: "border" %>
+          <%= f.text_field :title, value: @result_book["title"], readonly: true, class: "border shadow rounded w-80 h-16 break-words" %>
         </p>
+        <div>
+          <%= f.hidden_field :isbn, value: @result_book["industryIdentifiers"][0]["identifier"], class: "border" %>
+        </div>    
       </div>
       <%= f.submit "本を登録する", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
     </div>

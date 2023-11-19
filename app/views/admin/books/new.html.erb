@@ -1,14 +1,11 @@
-<h1 class="text-3xl">本管理 > 本登録</h1>
+<h1 class="text-xl text-left">本管理 > 本登録</h1>
 <%# APIのcontroller作成時にURL修正する %>
 <%= form_tag({:action=>"search", :controller=>"admin/books"},{ method: :post }) do %>
-  <div class="flex">
-    <div>
-      <div>
-        <label for="isbn">ISBN-10</label>
-        <input type="text" name="isbn" id="isbn"/>
-      </div>
-      <input type="submit" value="検索" class="w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" />
-    </div>
+
+  <div class="lex flex-col py-10 space-y-4 space-x-4">
+    <label for="isbn">ISBN-10</label>
+    <input class="w-80 bg-white shadow rounded" type="text" name="isbn" id="isbn"/>
+    <input type="submit" value="検索" class="w-70 text-white bg-blue-700 hover:bg-sky-500 font-medium rounded-lg border-solid text-m px-5 py-2.5" />
   </div>
 <% end %>
 
