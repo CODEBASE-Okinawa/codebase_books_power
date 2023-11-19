@@ -1,0 +1,39 @@
+<div class="relative overflow-x-auto">
+   <%= form_with(model: @request, url: admin_requests_path) do |f| %>
+    <table class="w-full text-sm text-left text-black">
+      <thead class="text-xs text-black border-b uppercase bg-white">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          ISBN
+        </th>
+        <th scope="col" class="px-6 py-3">
+          タイトル
+        </th>
+        <th scope="col" class="px-6 py-3">
+          著者
+        </th>
+        <%# <th scope="col" class="px-6 py-3">
+          アクション
+        </th> %>
+      </tr>
+      </thead>
+      <tbody>
+      <% @request.each do |request| %>
+          <tr class="bg-white border-b">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+              <%= request.isbn %>
+            </th>
+            <td class="px-6 py-4">
+              <%= request.title %>
+            </td>
+            <td class="px-6 py-4">
+              <%= request.author %>
+            </td>
+            <td class="px-6 py-4">
+              <%= f.submit "購入した", class: "w-full mt-6 text-white font-medium rounded-lg text-sm px-5 py-2.5 #{request.status ? 'bg-gray-400' : 'bg-blue-700' }", disabled: request.status %>             </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
