@@ -13,5 +13,13 @@
 <% end %>
 
 <% if @result_book %>
+<!-- 画像を表示する-->
+  <div>
+    <% if @result_book["imageLinks"] && @result_book["imageLinks"]["thumbnail"] %>
+      <%= image_tag @result_book["imageLinks"]["thumbnail"], class: "mt-4" %>
+    <% else %>
+      <p>No image available</p>
+    <% end %>
+  </div>
   <%= render partial: 'search_result', locals: { result_book: @result_book } %>
 <% end %>
