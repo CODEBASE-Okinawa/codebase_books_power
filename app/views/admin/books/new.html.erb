@@ -1,11 +1,15 @@
 <h1 class="text-3xl">本管理 > 本登録</h1>
-<%# APIのcontroller作成時にURL修正する %>
-<%= form_tag({:action=>"search", :controller=>"admin/books"},{ method: :post }) do %>
+
+<%= form_tag({:action=>"search", :controller=>"admin/books"}, { method: :post }) do %>
   <div class="flex">
     <div>
       <div>
         <label for="isbn">ISBN-10</label>
         <input type="text" name="isbn" id="isbn"/>
+      </div>
+      <div>
+        <label for="title">タイトル</label>
+        <input type="text" name="title" id="title"/>
       </div>
       <input type="submit" value="検索" class="w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" />
     </div>
@@ -13,13 +17,5 @@
 <% end %>
 
 <% if @result_book %>
-<!-- 画像を表示する-->
-  <div>
-    <% if @result_book["imageLinks"] && @result_book["imageLinks"]["thumbnail"] %>
-      <%= image_tag @result_book["imageLinks"]["thumbnail"], class: "mt-4" %>
-    <% else %>
-      <p>No image available</p>
-    <% end %>
-  </div>
   <%= render partial: 'search_result', locals: { result_book: @result_book } %>
 <% end %>
