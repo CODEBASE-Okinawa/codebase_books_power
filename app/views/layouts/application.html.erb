@@ -42,7 +42,7 @@
           <%= link_to "予約している本一覧", reservations_path, class: "flex justify-center items-center p-2 text-base font-normal text-black bg-gray-300 hover:bg-gray-600" %>
         </li>
         <li>
-          <%= link_to "リクエストする", new_request_path, class: "flex justify-center items-center p-2 text-base font-normal text-black bg-gray-300 hover:bg-gray-600" %>
+          <%= link_to "リクエスト登録", search_requests_path, class: "flex justify-center items-center p-2 text-base font-normal text-black bg-gray-300 hover:bg-gray-600" %>
         </li>
         <%# userがログイン時、ステータスを表示 %>
         <% if user_signed_in? %>
