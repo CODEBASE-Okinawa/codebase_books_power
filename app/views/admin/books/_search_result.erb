@@ -1,4 +1,3 @@
-<h3 class="text-xl">検索結果</h3>
 <%= form_with(model: @book, url: admin_books_path) do |f| %>
   <div class="flex">
     <div>
@@ -17,11 +16,18 @@
         
         <!-- 画像を表示する -->
         <div>
-          <%= image_tag @result_book["imageLinks"]["thumbnail"], class: "mt-4" %>
+          <%= image_tag @result_book["imageLinks"]["thumbnail"], class: "mw-full mt-6 flex items-center justify-center" %>
         </div>
       <% end %>
 
-      <%= f.submit "本を登録する", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <% if Book.exists?(isbn: @result_book["industryIdentifiers"][0]["identifier"]) %>
+        <!-- データベースにデータがある場合 -->
+      <p class="w-full mt-6 text-white bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center">登録済み</p>
+
+      <% else %>
+        <!-- データベースにデータがない場合 -->
+        <%= f.submit "本を登録する", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <% end %>
     </div>
   </div>
 <% end %>

@@ -17,7 +17,7 @@ class Admin::BooksController < ApplicationController
     if params[:book][:image_url].present?
       @book.image_url = params[:book][:image_url]
     end
-
+    
     if @book.save
       flash[:success] = "本を登録しました"
       redirect_to admin_books_path
