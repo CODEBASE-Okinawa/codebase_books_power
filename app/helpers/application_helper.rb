@@ -9,10 +9,9 @@ module ApplicationHelper
   def set_google_book_params(google_book)
     google_book['volumeInfo']['bookImage'] = google_book.dig('volumeInfo', 'imageLinks', 'thumbnail')&.gsub("http", "https")
 
-    #ISBNは13桁と10桁があり、どちら1つを取得できればよいので、最初に検索した値をsystemidに代入する
     # 10桁を取得するように修正した
     if google_book['volumeInfo']['industryIdentifiers']&.select { |h| h["type"].include?("ISBN_10") }.present?
-      google_book['volumeInfo']['systemid'] = google_book['volumeInfo']['industryIdentifiers']&.select { |h| h["type"].include?("ISBN") }.first["identifier"]
+      google_book['volumeInfo']['systemid'] = google_book['volumeInfo']['industryIdentifiers']&.find { |h| h["type"].include?("ISBN_10") }.fetch("identifier", nil)
     end
      #volumeInfoの中が必要な項目のみになるようsliceを使って絞りこむ
     google_book['volumeInfo'].slice('title', 'authors', 'publishedDate', 'infoLink', 'bookImage', 'systemid', 'canonicalVolumeLink')
