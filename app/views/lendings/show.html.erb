@@ -2,7 +2,9 @@
 
 <div class="flex">
   <div>
-    <% if @lending.book.image.attached? %>
+    <% if @lending.book.image_url.present? %>
+      <%= image_tag @lending.book.image_url, size: 200 %>
+    <% elsif @lending.book.image.attached? %>
       <%= image_tag @lending.book.image, size: 200 %>
     <% else %>
       <%= image_tag 'no_image.jpg', size: 200 %>

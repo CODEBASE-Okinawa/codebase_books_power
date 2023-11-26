@@ -1,14 +1,15 @@
 class RequestsController < ApplicationController
-  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
 
-    def new
-    end
+  def new
+  end
 
-    def search
+  def search
       require 'net/http'
       require 'uri'
       uri = URI.parse('https://www.googleapis.com/books/v1/volumes')
       text = params[:search]
+
 
       # 検索窓がブランクの時
       if text.present?
@@ -19,28 +20,21 @@ class RequestsController < ApplicationController
       else
         @google_books = nil
       end
+  end
 
+  def create
+    @bookRequest = Request.new 
+    #モデルに書いたsave_with_authorメソッドを実行する
+    if @bookRequest.save_with_request(params[:title], params[:systemid], params[:book][:authors], current_user&.id)
+      notifier.ping("本のリクエストがありました。ISNB:#{params[:systemid]}")
+      redirect_to books_path, success: t('.success')
+    else
+      flash.now[:danger] = t('.fail')
     end
+  end
 
-    def create
-      @bookRequest = Request.new 
-      #モデルに書いたsave_with_authorメソッドを実行する
-
-      if @bookRequest.save_with_request(params[:title], params[:systemid], params[:book][:authors])
-        notifier.ping("本のリクエストがありました。ISNB:#{params[:systemid]}")
-        redirect_to books_path, success: t('.success')
-      else
-        flash.now[:danger] = t('.fail')
-      end
-    end
-    
-      private  
-      
-      # #うまく使えなかった
-      # def requests_params
-      #   params.require(:book).permit(:title, :systemid, authors: [])
-      # end
-    
+  private  
+  
   def notifier
     Slack::Notifier.new(WEBHOOK_URL, username: 'Codebase Book')
   end
