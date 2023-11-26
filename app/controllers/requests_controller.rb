@@ -1,5 +1,5 @@
 class RequestsController < ApplicationController
-  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
 
   def new
   end
