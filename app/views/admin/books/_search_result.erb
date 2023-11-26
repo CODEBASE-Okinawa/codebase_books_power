@@ -1,14 +1,12 @@
+<h3 class="text-xl pt-20">検索結果</h3>
+
 <%= form_with(model: @book, url: admin_books_path) do |f| %>
   <div class="flex">
     <div>
-      <div>
-        <p>
-          <%= f.label :タイトル %>
-        </p>
-        <p>
-          <%= f.text_area :title, value: @result_book["title"], readonly: true, class: "border" %>
+      <div class="flex-col py-10 space-y-4 space-x-4">
+          <%= f.label :タイトル%>
+          <%= f.text_area :title, value: @result_book["title"], readonly: true, class: "border shadow rounded w-80 h-16 break-words" %>
           <%= f.hidden_field :isbn, value: @result_book["industryIdentifiers"][0]["identifier"], class: "border" %>
-        </p>
       </div>
 
       <% if @result_book["imageLinks"] && @result_book["imageLinks"]["thumbnail"] %>
