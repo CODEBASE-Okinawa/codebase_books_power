@@ -1,5 +1,5 @@
 class RequestsController < ApplicationController
-  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
+  WEBHOOK_URL = 'https://hooks.slack.com/services/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'
 
   def new
   end
@@ -20,8 +20,7 @@ class RequestsController < ApplicationController
   def create
     @bookRequest = Request.new 
     #モデルに書いたsave_with_authorメソッドを実行する
-
-    if @bookRequest.save_with_request(params[:title], params[:systemid], params[:book][:authors])
+    if @bookRequest.save_with_request(params[:title], params[:systemid], params[:book][:authors], current_user&.id)
       notifier.ping("本のリクエストがありました。ISNB:#{params[:systemid]}")
       redirect_to books_path, success: t('.success')
     else
