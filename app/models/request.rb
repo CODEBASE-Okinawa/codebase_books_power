@@ -13,4 +13,20 @@ class Request < ApplicationRecord
   rescue StandardError
     false
   end
+
+  def status_user(user)
+    user_id = user&.id
+    lending_status = lend_active.any?{ |lending| lending.user_id == user_id }
+    reservation_status = reservation_active.any?{ |reservation| reservation.user_id == user_id }
+    if lending_status && user_id.present?
+      "lending"
+    elsif reservation_status && user_id.present?
+      "reserved"
+    elsif lend_active.present?
+      "lent"
+    else
+      "available"
+    end
+  end
+
 end
