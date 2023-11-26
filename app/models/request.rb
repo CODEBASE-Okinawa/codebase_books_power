@@ -1,4 +1,5 @@
 class Request < ApplicationRecord
+  belongs_to :user
   def save_with_request(title, systemid, authors)
     ActiveRecord::Base.transaction do
       puts title
