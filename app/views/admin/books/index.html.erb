@@ -32,7 +32,9 @@
           <%= book.id %>
         </th>
         <td class="px-6 py-4">
-          <% if book.image.attached? %>
+          <% if book.image_url.present? %>
+            <%= image_tag book.image_url, size: 100 %>
+          <% elsif book.image.attached? %>
             <%= image_tag book.image, size: 100 %>
           <% else %>
             <%= image_tag 'no_image.jpg', size: 100 %>
