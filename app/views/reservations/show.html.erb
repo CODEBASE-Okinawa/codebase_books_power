@@ -2,7 +2,9 @@
 
 <div class="flex">
   <div>
-    <% if @reservation.book.image.attached? %>
+    <% if @reservation.book.image_url.present? %>
+      <%= image_tag @reservation.book.image_url, size: 200 %>
+    <% elsif @reservation.book.image.attached? %>
       <%= image_tag @reservation.book.image, size: 200 %>
     <% else %>
       <%= image_tag 'no_image.jpg', size: 200 %>
