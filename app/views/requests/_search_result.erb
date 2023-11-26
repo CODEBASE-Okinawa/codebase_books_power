@@ -1,0 +1,35 @@
+    <% google_books['items']&.each do |google_book| %>
+        <%= image_tag google_book_thumbnail(google_book) %>
+        <%= google_book['volumeInfo']['title'] %>
+        <%= google_book['volumeInfo']['authors']%>
+        <%= google_book['volumeInfo']['publishedDate'] %>
+
+
+
+
+       <%= form_with model: @book, url: requests_path, local: true, id: "new_book" do |f| %>
+            <%= f.hidden_field :title, value: set_google_book_params(google_book)["title"] %>
+            <%= f.hidden_field :systemid, value: set_google_book_params(google_book)["systemid"] %>
+            <% set_google_book_params(google_book)["authors"]&.each do |author| %>
+                <%= hidden_field_tag 'book[authors][]', author %>
+            <% end %>
+
+            <% if Book.exists_with_isbn?(set_google_book_params(google_book)["systemid"]) %>
+                <!-- 本登録済み -->
+                <% book = Book.find_by(isbn: set_google_book_params(google_book)["systemid"]) %>
+                <% if book.status_user(current_user) == "lending" %>
+                    <p class="w-full mt-6 text-white bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center">現在借りています</p>
+               <% elsif book.status_user(current_user) == "reserved"%>
+                    <p class="w-full mt-6 text-white bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center">予約しています</p>
+                <% elsif book.status_user(current_user) == "lent"%>
+                    <p class="w-full mt-6 text-white bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center">貸出中</p>
+                <% else%>
+                    <p class="w-full mt-6 text-white bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center">貸出可能</p>
+                <% end %>
+            <% else %>
+                <!-- リクエストなし＆本登録なし -->
+                <%= f.submit "リクエストを送信", class: "w-full mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+            <% end %>
+        <% end %>
+
+    <% end %>

@@ -4,7 +4,9 @@
     <%= link_to book_path(book) do %>
       <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow bg-white">
         <div class="flex flex-col items-center pb-10">
-          <% if book.image.attached? %>
+          <% if book.image_url.present? %>
+            <%= image_tag book.image_url, size: 200 %>
+          <% elsif book.image.attached? %>
             <%= image_tag book.image, size: 200 %>
           <% else %>
             <%= image_tag 'no_image.jpg', size: 200 %>

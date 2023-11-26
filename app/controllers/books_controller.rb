@@ -15,6 +15,7 @@ class BooksController < ApplicationController
     @reservations = @book.reservations.where("reservation_at >= ?", Time.now).order(reservation_at: :asc)
   end
 
+  
   private
 
   def redirect_to_admin_books

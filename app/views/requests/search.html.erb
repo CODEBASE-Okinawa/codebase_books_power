@@ -1,0 +1,11 @@
+<h1 class="text-3xl pb-20">購入リクエストを送る</h1>
+  <%= form_with url: search_requests_path, local: true, method: :get do |f| %>
+  <%= f.search_field :search, class: "form-control", value: params[:search], class: "border shadow rounded w-80 h-16 break-words" %>
+  <%= f.submit "検索する", class: "mt-6 text-white bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5" %>
+<% end %>
+
+<% if @google_books.present?  %>
+  <%= render partial: 'search_result', locals: { google_books: @google_books } %>
+<% end %>
+
+
