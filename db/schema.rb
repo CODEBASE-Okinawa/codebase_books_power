@@ -83,7 +83,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_26_023345) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "status", default: false
-    t.boolean "purchased", default: false
     t.bigint "user_id"
   end
 
