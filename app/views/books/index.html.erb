@@ -4,18 +4,20 @@
     <%= link_to book_path(book) do %>
       <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow bg-white">
         <div class="flex flex-col items-center pb-10">
-          <% if book.image.attached? %>
+          <% if book.image_url.present? %>
+            <%= image_tag book.image_url, size: 200 %>
+          <% elsif book.image.attached? %>
             <%= image_tag book.image, size: 200 %>
           <% else %>
             <%= image_tag 'no_image.jpg', size: 200 %>
           <% end %>
           <h5 class="mb-1 text-xl font-medium text-black"><%= book.title %></h5>
 
-          <% if book.status(current_user) == "lending" %>
+          <% if book.status_user(current_user) == "lending" %>
             <span class="text-sm text-black" style = "background:#0096FF;font-weight:bold;">現在借りています</span>
-          <% elsif book.status(current_user) == "reserved" %>
+          <% elsif book.status_user(current_user) == "reserved" %>
             <span class="text-sm text-black" style = "background:#FFEE75;font-weight:bold;">予約しています</span>
-          <% elsif book.status(current_user) == "lent" %>
+          <% elsif book.status_user(current_user) == "lent" %>
             <span class="text-sm text-black" style = "background:#FF2c2c;font-weight:bold;">貸出中</span>
           <% else %>
             <span class="text-sm text-black" style = "background:#98FF98;font-weight:bold;">貸出可能</span>

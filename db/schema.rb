@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_26_020522) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_26_023345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_26_020522) do
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "isbn"
+    t.string "image_url"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -72,6 +74,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_26_020522) do
     t.datetime "updated_at", null: false
     t.index ["book_id"], name: "index_lendings_on_book_id"
     t.index ["user_id"], name: "index_lendings_on_user_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.string "title"
+    t.string "author"
+    t.string "isbn"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "status", default: false
+    t.bigint "user_id"
   end
 
   create_table "reservations", force: :cascade do |t|

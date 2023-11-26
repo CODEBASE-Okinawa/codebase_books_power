@@ -24,10 +24,18 @@ class LendingsController < ApplicationController
 
   def create
     @lending = Book.find(params[:book_id]).lendings.build(lending_params(params))
-    return unless @lending.save
 
-    flash[:success] = "貸出が完了しました"
-    redirect_to lendings_path
+    if @lending.save
+      # reservation_remind_dateメソッドで返された日付にメールを送るように、ジョブにキューイング。
+      MailDeliveryJob.set(wait_until: return_remind_date(@lending.return_at)).perform_later(@lending)
+
+      flash[:success] = "貸出が完了しました"
+      redirect_to lendings_path
+    else
+      # 保存が失敗した場合の処理
+      flash[:error] = "貸出の処理に失敗しました"
+      render :new
+    end
   end
 
   private
@@ -44,4 +52,10 @@ class LendingsController < ApplicationController
       redirect_to lendings_path
     end
   end
+end
+
+# 返却のリマインド通知を送る、日付を返す
+def return_remind_date(returmn_at)
+  # 貸出して、返却日の３日前の日付をセット
+    return_at.days_ago(3).to_time
 end

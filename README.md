@@ -28,6 +28,11 @@ $ docker compose up app
 $ docker compose exec app bash
 ```
 
+### rubocopを実行する
+コミット前に以下のコマンドを実行
+```
+$ docker-compose exec app bundle exec rubocop
+```
 
 ## 2. VSCode devcontainer で構築する
 

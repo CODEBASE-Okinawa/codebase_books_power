@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1><%= @user.name %>様</h1>
+    <p>
+      Codebase Bookにリクエストいただいた本を購入いたしました。
+    </p>
+    <p>
+      タイトル：<%= @request.title %>
+    </p>
+    <p>
+      著者：<%= @request.author %>
+    </p>
+    <p>
+      このサイトにログインする
+    </p>
+    <div><%= link_to "ログイン", @url, method: :get, target: :_blank, rel: "noopener noreferrer" %></div>
+    <p>今後ともよろしくお願いいたします。</p>
+  </body>
+</html>

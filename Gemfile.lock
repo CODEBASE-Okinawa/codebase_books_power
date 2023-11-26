@@ -240,8 +240,10 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.24.1)
       parser (>= 3.1.1.0)
-    ruby-debug-ide (0.7.3)
-      rake (>= 0.8.1)
+    rubocop-rails (2.22.1)
+      activesupport (>= 4.2.0)
+      rack (>= 1.1)
+      rubocop (>= 1.33.0, < 2.0)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.2)
     sassc (2.4.0)
@@ -256,6 +258,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    slack-notifier (2.4.0)
     solargraph (0.48.0)
       backport (~> 1.2)
       benchmark
@@ -315,6 +318,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-21
+  arm64-darwin-23
   x86_64-darwin-21
   x86_64-linux
 
@@ -336,9 +340,11 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.2)
   rbs (~> 2.8.4)
   rbs_rails
-  ruby-debug-ide
+  rubocop
+  rubocop-rails
   sassc-rails
   selenium-webdriver
+  slack-notifier
   solargraph
   sprockets-rails
   stimulus-rails

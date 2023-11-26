@@ -10,7 +10,7 @@ class Book < ApplicationRecord
 
   delegate :created_at, :return_at, :user, to: :lending
 
-  def status(user)
+  def status_user(user)
     user_id = user&.id
     lending_status = lend_active.any?{ |lending| lending.user_id == user_id }
     reservation_status = reservation_active.any?{ |reservation| reservation.user_id == user_id }
