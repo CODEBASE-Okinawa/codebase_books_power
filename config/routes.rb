@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :users, only: [:index]
     resources :requests, only: [:index, :update]
   end
+
   resources :books
   resources :requests, only: [:new, :create] do
     collection do

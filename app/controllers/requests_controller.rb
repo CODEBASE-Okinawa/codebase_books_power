@@ -10,11 +10,16 @@ class RequestsController < ApplicationController
       uri = URI.parse('https://www.googleapis.com/books/v1/volumes')
       text = params[:search]
 
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true        
-      response = http.get("#{uri}?q=search:#{text}")
 
-      @google_books = JSON.parse(response.body)
+      # 検索窓がブランクの時
+      if text.present?
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true        
+        response = http.get("#{uri}?q=search:#{text}")
+        @google_books = JSON.parse(response.body)
+      else
+        @google_books = nil
+      end
   end
 
   def create
@@ -29,12 +34,7 @@ class RequestsController < ApplicationController
   end
 
   private  
-
-  #うまく使えなかった
-  def requests_params
-    params.require(:book).permit(:title, :systemid, authors: [])
-  end
-
+  
   def notifier
     Slack::Notifier.new(WEBHOOK_URL, username: 'Codebase Book')
   end
