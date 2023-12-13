@@ -8,6 +8,8 @@ require 'rspec/rails'
 
 require 'rails_helper'
 
+require 'capybara/rspec'
+
 require 'factory_bot_rails'
 # FactoryBot.find_definitions
 
